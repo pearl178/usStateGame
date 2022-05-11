@@ -23,6 +23,9 @@ correct_states = []
 while len(correct_states) < 50:
     answer_state = screen.textinput(title=f"{len(correct_states)}/50 Guess the state", prompt="What's another state's name?")
     if answer_state.lower() == 'exit':
+        states_to_learn = [state for state in states if state not in correct_states]
+        learn_states = pandas.DataFrame(states_to_learn)
+        learn_states.to_csv("states_to_learn.csv")
         break
     guess = answer_state.title()
     if guess in states:
@@ -36,11 +39,4 @@ while len(correct_states) < 50:
         state_name.goto(position)
         state_name.write(guess, align="center", font=("Arial", 10, "normal"))
 
-states_to_learn = []
-for state in states:
-    if state not in correct_states:
-        states_to_learn.append(state)
-
-learn_states = pandas.DataFrame(states_to_learn)
-learn_states.to_csv("states_to_learn.csv")
 
